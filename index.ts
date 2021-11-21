@@ -108,6 +108,7 @@ export const it = (test: string, callback: Function) => {
         callback();
     }
     catch (err) {
+        console.error(err);
         throw new Error(`Test: ${test} failed.`);
     }
 };
