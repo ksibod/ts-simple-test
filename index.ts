@@ -113,6 +113,7 @@ export const it = (test: string, callback: Function) => {
     }
 };
 
+// TODO: Update time method with better naming/formatting in console
 export const time = (func: Function, label?: string): void => {
     const funcLabel = label ?? 'Function';
     console.time(funcLabel);
