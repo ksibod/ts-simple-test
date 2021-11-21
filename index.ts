@@ -1,10 +1,12 @@
 import chalk from 'chalk';
 
 const log = console.log;
-const success = chalk.bold.greenBright;
-const error = chalk.bold.red;
-const info = chalk.bold.white;
-const warning = chalk.bold.yellow;
+const makeLogger = (color: chalk.Chalk, padding?: number) =>
+    (value: string) => log(color(value.padStart(padding || 0, ' ')));
+const success = makeLogger(chalk.bold.greenBright, 4);
+const error = makeLogger(chalk.bold.red);
+const info = makeLogger(chalk.bold.white, 2);
+const warning = makeLogger(chalk.bold.yellow);
 
 class Matches<T> {
 
@@ -16,7 +18,7 @@ class Matches<T> {
 
     toBe = (expected: T) => {
         if (expected === this.value) {
-            log(success('Succeeded'.padStart(4)))
+            success('Succeeded')
         }
         else {
             throw new Error(`Fail - Actual: ${this.value}, Expected: ${expected}`);
@@ -25,7 +27,7 @@ class Matches<T> {
 
     toBeTruthy = () => {
         if (this.value) {
-            log(success('Succeeded'.padStart(4)));
+            success('Succeeded');
         }
         else {
             throw new Error(`Fail - Expected value to be truthy but got ${this.value}`);
@@ -34,7 +36,7 @@ class Matches<T> {
 
     toBeFalsy = () => {
         if (!this.value) {
-            log(success('Succeeded'.padStart(4)));
+            success('Succeeded');
         }
         else {
             throw new Error(`Fail - Expected value to be falsy but got ${this.value}`);
@@ -43,7 +45,7 @@ class Matches<T> {
 
     toBeGreaterThan = (expected: T) => {
         if (this.value > expected) {
-            log(success('Succeeded'.padStart(4)));
+            success('Succeeded');
         }
         else {
             throw new Error(`Fail - Expected value to be greater than ${expected}`);
@@ -52,7 +54,7 @@ class Matches<T> {
 
     toBeLessThan = (expected: T) => {
         if (this.value < expected) {
-            log(success('Succeeded'.padStart(4)));
+            success('Succeeded');
         }
         else {
             throw new Error(`Fail - Expected value to be less than ${expected}`);
@@ -61,7 +63,7 @@ class Matches<T> {
 
     toBeGreaterThanOrEqualTo = (expected: T) => {
         if (this.value >= expected) {
-            log(success('Succeeded'.padStart(4)));
+            success('Succeeded');
         }
         else {
             throw new Error(`Fail - Expected ${this.value} to be greater than or equal to ${expected}`);
@@ -70,7 +72,7 @@ class Matches<T> {
 
     toBeLessThanOrEqualTo = (expected: T) => {
         if (this.value <= expected) {
-            log(success('Succeeded'.padStart(4)));
+            success('Succeeded');
         }
         else {
             throw new Error(`Fail - Expected ${this.value} to be less than or equal to ${expected}`);
@@ -79,28 +81,25 @@ class Matches<T> {
 
 }
 
-export const expect = <T>(actual: T) => {
-    return new Matches<T>(actual);
-};
+export const expect = <T>(actual: T) => new Matches<T>(actual);
 
 export const describe = (suite: string, callback: Function) => {
     try {
-        log('\n');
-        log(`Test Suite: ${success(suite)}`);
+        warning(`\nTest Suite: ${success(suite)}`);
         callback();
     }
     catch (err) {
-        log(error(`[${err.message.toUpperCase()}]`));
+        error(`[${err.message.toUpperCase()}]`);
     }
 };
 
 export const it = (test: string, callback: Function) => {
-    log(`Test Name: ${info(test)}`.padStart(4));
+    info(`Name: ${test}`);
     try {
         callback();
     }
     catch (err) {
-        log(error(err).padStart(4));
+        error(err);
         throw new Error(`Test: ${test} failed.`);
     }
 };
@@ -108,9 +107,7 @@ export const it = (test: string, callback: Function) => {
 
 export const time = (func: Function, label?: string): void => {
     const funcLabel = label ?? 'Function';
-    console.time(funcLabel)
-
-        func()
-
+    console.time(funcLabel);
+    func();
     console.timeEnd(funcLabel);
 };
