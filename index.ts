@@ -68,3 +68,13 @@ export const it = (test: string, callback: Function) => {
         throw new Error(`Test: ${test} failed.`);
     }
 };
+
+
+export const time = (func: Function, label?: string): void => {
+    const funcLabel = label ?? 'Function';
+    console.time(funcLabel)
+
+        func()
+
+    console.timeEnd(funcLabel);
+};
