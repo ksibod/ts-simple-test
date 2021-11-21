@@ -16,30 +16,66 @@ class Matches<T> {
 
     toBe = (expected: T) => {
         if (expected === this.value) {
-            log(chalk.greenBright('Succeeded'.padStart(4)))
+            log(success('Succeeded'.padStart(4)))
         }
         else {
             throw new Error(`Fail - Actual: ${this.value}, Expected: ${expected}`);
         }
-    }
+    };
 
     toBeTruthy = () => {
         if (this.value) {
-            log(chalk.greenBright('Succeeded'.padStart(4)));
+            log(success('Succeeded'.padStart(4)));
         }
         else {
             throw new Error(`Fail - Expected value to be truthy but got ${this.value}`);
         }
-    }
+    };
 
     toBeFalsy = () => {
         if (!this.value) {
-            log(chalk.greenBright('Succeeded'.padStart(4)));
+            log(success('Succeeded'.padStart(4)));
         }
         else {
             throw new Error(`Fail - Expected value to be falsy but got ${this.value}`);
         }
-    }
+    };
+
+    toBeGreaterThan = (expected: T) => {
+        if (this.value > expected) {
+            log(success('Succeeded'.padStart(4)));
+        }
+        else {
+            throw new Error(`Fail - Expected value to be greater than ${expected}`);
+        }
+    };
+
+    toBeLessThan = (expected: T) => {
+        if (this.value < expected) {
+            log(success('Succeeded'.padStart(4)));
+        }
+        else {
+            throw new Error(`Fail - Expected value to be less than ${expected}`);
+        }
+    };
+
+    toBeGreaterThanOrEqualTo = (expected: T) => {
+        if (this.value >= expected) {
+            log(success('Succeeded'.padStart(4)));
+        }
+        else {
+            throw new Error(`Fail - Expected ${this.value} to be greater than or equal to ${expected}`);
+        }
+    };
+
+    toBeLessThanOrEqualTo = (expected: T) => {
+        if (this.value <= expected) {
+            log(success('Succeeded'.padStart(4)));
+        }
+        else {
+            throw new Error(`Fail - Expected ${this.value} to be less than or equal to ${expected}`);
+        }
+    };
 
 }
 
