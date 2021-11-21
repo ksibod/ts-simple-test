@@ -1,6 +1,6 @@
 {
   "name": "ts-simple-test",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Simple testing lib",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
