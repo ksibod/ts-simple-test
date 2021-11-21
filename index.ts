@@ -2,7 +2,7 @@ import chalk from 'chalk';
 
 const log = console.log;
 const makeLogger = (color: chalk.Chalk, padding?: number) =>
-    (value: string) => log(color(value.padStart(padding || 0, ' ')));
+    (value: string) => log(color(value.padStart(padding || 0, '\t')));
 const success = makeLogger(chalk.bold.greenBright, 4);
 const error = makeLogger(chalk.bold.red);
 const info = makeLogger(chalk.bold.white, 2);
@@ -85,7 +85,7 @@ export const expect = <T>(actual: T) => new Matches<T>(actual);
 
 export const describe = (suite: string, callback: Function) => {
     try {
-        warning(`\nTest Suite: ${success(suite)}`);
+        warning(`\nTest Suite: ${suite}`);
         callback();
     }
     catch (err) {
@@ -103,7 +103,6 @@ export const it = (test: string, callback: Function) => {
         throw new Error(`Test: ${test} failed.`);
     }
 };
-
 
 export const time = (func: Function, label?: string): void => {
     const funcLabel = label ?? 'Function';
